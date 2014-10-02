@@ -16,8 +16,10 @@
  */
 package io.nuun.plugin.rest;
 
+import static io.nuun.kernel.core.NuunCore.createKernel;
+import static io.nuun.kernel.core.NuunCore.newKernelConfiguration;
 import static org.fest.assertions.Assertions.assertThat;
-import io.nuun.kernel.core.Kernel;
+import io.nuun.kernel.api.Kernel;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -31,11 +33,18 @@ public class NuunRestPluginTest
 	@BeforeClass
     public static void init()
     {
-        underTest = Kernel.createKernel (
-        		Kernel.NUUN_ROOT_PACKAGE , "org.nuunframework",
-        		NuunRestPlugin.NUUN_JERSEY_GUICECONTAINER_CUSTOM_CLASS , SampleGuiceContainer.class.getName() ,
-        		NuunRestPlugin.NUUN_REST_URL_PATTERN , "/rest/*"
-        		).build();
+        
+        underTest = createKernel(
+                //
+                newKernelConfiguration() //
+                .params( //
+                        Kernel.NUUN_ROOT_PACKAGE , "org.nuunframework", //
+                        NuunRestPlugin.NUUN_JERSEY_GUICECONTAINER_CUSTOM_CLASS , SampleGuiceContainer.class.getName() , //
+                        NuunRestPlugin.NUUN_REST_URL_PATTERN , "/rest/*" ) //
+                );
+
+        
+        
         underTest.init();
         underTest.start();
     }

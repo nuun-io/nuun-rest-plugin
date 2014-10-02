@@ -45,7 +45,7 @@ import com.google.inject.Scopes;
 public class NuunRestPlugin extends AbstractPlugin
 {
 
-    Logger logger = LoggerFactory.getLogger(NuunRestPlugin.class); 
+    Logger logger = LoggerFactory.getLogger(NuunRestPlugin.class);
     
     public static String NUUN_REST_URL_PATTERN                   = "nuun.rest.url.pattern";
     public static String NUUN_REST_PACKAGE_ROOT                  = "nuun.rest.package.root";
@@ -87,16 +87,18 @@ public class NuunRestPlugin extends AbstractPlugin
         
         if ( urlPatternFromKernel != null && ! urlPatternFromKernel.trim().equals(""))
         {
-            this.urlPattern = urlPatternFromKernel;
+            urlPattern = urlPatternFromKernel;
         }
         
-        if (this.urlPattern == null || this.urlPattern.trim().equals(""))
+        if (urlPattern == null || urlPattern.trim().equals(""))
+        {
             throw new PluginException( NUUN_REST_URL_PATTERN + " can not be null for plugin " + this.getClass().getName() + ".");
+        }
         
         String pojo = initContext.getKernelParam(NUUN_REST_POJO_MAPPING_FEATURE_ENABLED);
         if (pojo != null && !pojo.isEmpty())
         {
-            this.enablePojoMappingFeature = Boolean.valueOf(pojo);
+            enablePojoMappingFeature = Boolean.valueOf(pojo);
         }
         String strJerseyClass = initContext.getKernelParam(NUUN_JERSEY_GUICECONTAINER_CUSTOM_CLASS);
         if (strJerseyClass != null && !strJerseyClass.isEmpty() )
@@ -106,7 +108,7 @@ public class NuunRestPlugin extends AbstractPlugin
 				{
 				    logger.info( String.format("Overringing %s by %s via kernel parameter %s." , jerseyCustomClass.getName() , strJerseyClass, NUUN_JERSEY_GUICECONTAINER_CUSTOM_CLASS));
 				}
-        	    this.jerseyCustomClass = (Class<? extends HttpServlet>) Class.forName(strJerseyClass);
+        	    jerseyCustomClass = (Class<? extends HttpServlet>) Class.forName(strJerseyClass);
 			} catch (ClassNotFoundException e) {
 				throw new PluginException ( strJerseyClass + " does not exists as class.", e);
 			}
@@ -120,12 +122,12 @@ public class NuunRestPlugin extends AbstractPlugin
     public Collection<BindingRequest> bindingRequests()
     {
         
-        Specification<Class<?>> specificationForNoScope = or ( 
+        Specification<Class<?>> specificationForNoScope = or (
                 classAnnotatedWith(Path.class) ,
-                classMethodsAnnotatedWith(Path.class) 
+                classMethodsAnnotatedWith(Path.class)
    		);
-        Specification<Class<?>> specificationForSingletonScop =  or(                             
-                and( classAnnotatedWith(Provider.class) , classImplements(MessageBodyWriter.class)) , 
+        Specification<Class<?>> specificationForSingletonScop =  or(
+                and( classAnnotatedWith(Provider.class) , classImplements(MessageBodyWriter.class)) ,
                 and( classAnnotatedWith(Provider.class) , classImplements(ContextResolver.class)) ,
                 and( classAnnotatedWith(Provider.class) , classImplements(MessageBodyReader.class)) ,
                 and( classAnnotatedWith(Provider.class) , classImplements(ExceptionMapper.class))
@@ -146,7 +148,7 @@ public class NuunRestPlugin extends AbstractPlugin
     public Collection<KernelParamsRequest> kernelParamsRequests()
     {
         return kernelParamsRequestBuilder() //
-        		.mandatory(NUUN_REST_URL_PATTERN) // 
+        		.mandatory(NUUN_REST_URL_PATTERN) //
         		.optional(NUUN_REST_POJO_MAPPING_FEATURE_ENABLED).build();
     }
 
@@ -154,18 +156,16 @@ public class NuunRestPlugin extends AbstractPlugin
      * (non-Javadoc)
      * @see com.inetpsa.nuun.core.plugin.AbstractStsPlugin#pluginsRequired()
      */
-    @SuppressWarnings({
-            "unchecked", "rawtypes"
-    })
+    @SuppressWarnings("unchecked")
     @Override
     public Collection<Class<? extends Plugin>> requiredPlugins()
     {
-        return (Collection) collectionOf(NuunWebPlugin.class);
+        return collectionOf(NuunWebPlugin.class);
     }
     
     public void setjerseyCustomClass(Class<? extends HttpServlet> klass)
     {
-        this.jerseyCustomClass = klass;
+        jerseyCustomClass = klass;
     }
     
     public void setUrlPattern(String urlPattern)
