@@ -17,12 +17,12 @@
 package io.nuun.plugin.rest;
 
 import io.nuun.kernel.api.Plugin;
-import io.nuun.kernel.api.plugin.AbstractPlugin;
 import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.PluginException;
 import io.nuun.kernel.api.plugin.context.InitContext;
 import io.nuun.kernel.api.plugin.request.BindingRequest;
 import io.nuun.kernel.api.plugin.request.KernelParamsRequest;
+import io.nuun.kernel.core.AbstractPlugin;
 import io.nuun.plugin.web.NuunWebPlugin;
 
 import java.util.Collection;

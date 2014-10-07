@@ -53,7 +53,7 @@ public class NuunRestPluginTest
 	public void custom_guicecontainer_should_be_usable ()
 	{
 		assertThat(
-		   underTest.getMainInjector().getInstance(SampleGuiceContainer.class)
+		   underTest.getObjectGraph().as(Injector.class).getInstance(SampleGuiceContainer.class)
 		).isNotNull();
 		assertThat(SampleGuiceContainer.initialized).isTrue();
 	}
