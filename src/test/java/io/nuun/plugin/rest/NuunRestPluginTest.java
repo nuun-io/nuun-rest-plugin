@@ -25,6 +25,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.inject.Injector;
+
 public class NuunRestPluginTest
 {
 
@@ -53,7 +55,7 @@ public class NuunRestPluginTest
 	public void custom_guicecontainer_should_be_usable ()
 	{
 		assertThat(
-		   underTest.getObjectGraph().as(Injector.class).getInstance(SampleGuiceContainer.class)
+		   underTest.objectGraph().as(Injector.class).getInstance(SampleGuiceContainer.class)
 		).isNotNull();
 		assertThat(SampleGuiceContainer.initialized).isTrue();
 	}

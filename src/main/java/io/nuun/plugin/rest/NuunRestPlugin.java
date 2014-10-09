@@ -17,6 +17,7 @@
 package io.nuun.plugin.rest;
 
 import io.nuun.kernel.api.Plugin;
+import io.nuun.kernel.api.di.UnitModule;
 import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.PluginException;
 import io.nuun.kernel.api.plugin.context.InitContext;
@@ -66,7 +67,7 @@ public class NuunRestPlugin extends AbstractPlugin
     }
 
     @Override
-    public Object dependencyInjectionDef()
+    public Object nativeUnitModule()
     {
 
         if (module == null)
