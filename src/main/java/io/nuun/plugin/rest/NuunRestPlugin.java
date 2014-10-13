@@ -17,7 +17,6 @@
 package io.nuun.plugin.rest;
 
 import io.nuun.kernel.api.Plugin;
-import io.nuun.kernel.api.di.UnitModule;
 import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.PluginException;
 import io.nuun.kernel.api.plugin.context.InitContext;
@@ -84,7 +83,7 @@ public class NuunRestPlugin extends AbstractPlugin
     public InitState init(InitContext initContext)
     {
         
-        String urlPatternFromKernel = initContext.getKernelParam(NUUN_REST_URL_PATTERN);
+        String urlPatternFromKernel = initContext.kernelParam(NUUN_REST_URL_PATTERN);
         
         if ( urlPatternFromKernel != null && ! urlPatternFromKernel.trim().equals(""))
         {
@@ -96,12 +95,12 @@ public class NuunRestPlugin extends AbstractPlugin
             throw new PluginException( NUUN_REST_URL_PATTERN + " can not be null for plugin " + this.getClass().getName() + ".");
         }
         
-        String pojo = initContext.getKernelParam(NUUN_REST_POJO_MAPPING_FEATURE_ENABLED);
+        String pojo = initContext.kernelParam(NUUN_REST_POJO_MAPPING_FEATURE_ENABLED);
         if (pojo != null && !pojo.isEmpty())
         {
             enablePojoMappingFeature = Boolean.valueOf(pojo);
         }
-        String strJerseyClass = initContext.getKernelParam(NUUN_JERSEY_GUICECONTAINER_CUSTOM_CLASS);
+        String strJerseyClass = initContext.kernelParam(NUUN_JERSEY_GUICECONTAINER_CUSTOM_CLASS);
         if (strJerseyClass != null && !strJerseyClass.isEmpty() )
         {
         	try {
