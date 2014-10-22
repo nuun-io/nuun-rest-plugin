@@ -9,7 +9,7 @@
 
 	<groupId>io.nuun</groupId>
 	<artifactId>nuun-rest-plugin</artifactId>
-	<version>1.0.M1-SNAPSHOT</version>
+	<version>1.0.M1</version>
 
 	<name>Nuun IO REST plugin</name>
 
