@@ -16,16 +16,16 @@
  */
 package io.nuun.plugin.rest;
 
-import static io.nuun.kernel.core.NuunCore.createKernel;
-import static io.nuun.kernel.core.NuunCore.newKernelConfiguration;
-import static org.fest.assertions.Assertions.assertThat;
+import com.google.inject.Injector;
 import io.nuun.kernel.api.Kernel;
-
+import io.nuun.plugin.rest.sample.SubRez;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.google.inject.Injector;
+import static io.nuun.kernel.core.NuunCore.createKernel;
+import static io.nuun.kernel.core.NuunCore.newKernelConfiguration;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class NuunRestPluginTest
 {
@@ -40,7 +40,7 @@ public class NuunRestPluginTest
                 //
                 newKernelConfiguration() //
                 .params( //
-                        Kernel.NUUN_ROOT_PACKAGE , "org.nuunframework", //
+                        Kernel.NUUN_ROOT_PACKAGE , "io.nuun", //
                         NuunRestPlugin.NUUN_JERSEY_GUICECONTAINER_CUSTOM_CLASS , SampleGuiceContainer.class.getName() , //
                         NuunRestPlugin.NUUN_REST_URL_PATTERN , "/rest/*" ) //
                 );
@@ -60,15 +60,15 @@ public class NuunRestPluginTest
 		assertThat(SampleGuiceContainer.initialized).isTrue();
 	}
 
+    @Test
+    public void subresources_should_be_bound ()
+    {
+        assertThat(underTest.objectGraph().as(Injector.class).getInstance(SubRez.class)).isNotNull();
+    }
 	
     @AfterClass
     public static void stop()
     {
     	underTest.stop();
-    }
-    
-    void subresources_should_be_bound ()
-    {
-        
     }
 }
